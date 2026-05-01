@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
-const HERO_IMG = "https://cdn.poehali.dev/projects/d3eca4b3-1036-4f92-94af-157af1812bb5/files/d97ecd55-3b77-48d3-9af6-15786e49c359.jpg";
+const HERO_IMG = "https://cdn.poehali.dev/projects/d3eca4b3-1036-4f92-94af-157af1812bb5/files/d67e0c29-fceb-404e-868a-29eac9680adb.jpg";
 
 interface MenuItem {
   id: number;
@@ -69,7 +69,7 @@ export default function Index() {
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-border/50" style={{ background: "hsl(20 14% 6% / 0.92)" }}>
         <div className="font-display text-2xl font-bold tracking-widest">
-          <span className="text-fire">ША</span>УР
+          <span className="text-fire">ШАУРМА</span>-РОК
         </div>
         <div className="hidden md:flex items-center gap-8">
           {[["home", "Главная"], ["menu", "Меню"], ["delivery", "Доставка"]].map(([id, label]) => (
@@ -112,9 +112,9 @@ export default function Index() {
               🔥 Горячая шаурма прямо к вам
             </div>
             <h1 className="font-display text-7xl md:text-8xl font-bold leading-none tracking-tight mb-4 animate-fade-up delay-100">
-              УЛИ<br />
-              <span className="text-fire">ЧНА</span><br />
-              Я ЕДА
+              ШАУ<br />
+              <span className="text-fire">РМА</span><br />
+              -РОК 🤘
             </h1>
             <p className="text-muted-foreground text-lg mb-8 font-body animate-fade-up delay-200">
               Шаурма, которую хочется снова — свежее мясо, хрустящий лаваш, фирменные соусы. Доставим за 30 минут.
@@ -296,6 +296,10 @@ export default function Index() {
                   <span className="text-muted-foreground text-sm">Минимальный заказ:</span>
                   <span className="font-display font-bold text-gold">300 ₽</span>
                 </div>
+                <div className="bg-muted rounded-xl px-4 py-3 flex items-center justify-between">
+                  <span className="text-muted-foreground text-sm">Или позвони сам:</span>
+                  <a href="tel:+79505795263" className="font-display font-bold text-fire hover:brightness-125 transition-all">+7 (950) 579-52-63</a>
+                </div>
                 {totalQty > 0 && (
                   <div className="bg-fire/10 border border-fire/20 rounded-xl px-4 py-3 flex items-center justify-between">
                     <span className="text-sm font-display">В корзине</span>
@@ -322,7 +326,7 @@ export default function Index() {
       <footer className="border-t border-border py-10 px-6">
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="font-display text-2xl font-bold tracking-widest">
-            <span className="text-fire">ША</span>УР
+            <span className="text-fire">ШАУРМА</span>-РОК
           </div>
           <p className="text-muted-foreground text-sm">Горячая уличная еда · Доставка 30 мин</p>
           <div className="flex items-center gap-4 text-muted-foreground text-sm">
