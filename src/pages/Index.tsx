@@ -326,7 +326,7 @@ export default function Index() {
           </div>
           <p className="text-muted-foreground text-sm">Горячая уличная еда · Доставка 30 мин</p>
           <div className="flex items-center gap-4 text-muted-foreground text-sm">
-            <span>📞 +7 (900) 123-45-67</span>
+            <a href="tel:+79505795263" className="hover:text-fire transition-colors">📞 +7 (950) 579-52-63</a>
             <span>🕐 Круглосуточно</span>
           </div>
         </div>
