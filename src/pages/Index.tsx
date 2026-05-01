@@ -8,6 +8,7 @@ interface MenuItem {
   name: string;
   desc: string;
   price: number;
+  priceLabel?: string;
   emoji: string;
   tag?: string;
 }
@@ -17,14 +18,9 @@ interface CartItem extends MenuItem {
 }
 
 const MENU: MenuItem[] = [
-  { id: 1, name: "Классическая шаурма", desc: "Курица, овощи, соус чесночный, лаваш", price: 350, emoji: "🌯", tag: "ХИТ" },
-  { id: 2, name: "Острая шаурма", desc: "Курица, халапеньо, острый соус, лаваш", price: 370, emoji: "🔥", tag: "ОСТРАЯ" },
-  { id: 3, name: "Мясное ассорти", desc: "Говядина + курица, двойной соус, лаваш", price: 420, emoji: "🥩" },
-  { id: 4, name: "Вегетарианская", desc: "Фалафель, хумус, свежие овощи, лаваш", price: 320, emoji: "🥗" },
-  { id: 5, name: "Кола 0.5л", desc: "Газированный напиток", price: 90, emoji: "🥤" },
-  { id: 6, name: "Картошка фри", desc: "Хрустящая картошка с соусом", price: 150, emoji: "🍟" },
-  { id: 7, name: "Салат коул-слоу", desc: "Свежая капуста, морковь, заправка", price: 120, emoji: "🥙" },
-  { id: 8, name: "Сок в ассортименте", desc: "Апельсин, яблоко или вишня, 0.2л", price: 80, emoji: "🍊" },
+  { id: 1, name: "Гурьевск-экспресс", desc: "Тройная курица, капуста, три соуса, и соль, соль, соль. Подаётся с кружкой солёного воздуха.", price: 500, priceLabel: "500 ₽ или пачка Winston (Маркиз проверит)", emoji: "🌯", tag: "ХИТ" },
+  { id: 2, name: "Ленивый депутат", desc: "Без штанов, но с улыбкой. Мяса мало, соли много. И воспоминание о мерседесе на дереве.", price: 999, priceLabel: "штаны или протез (любой)", emoji: "🥩", tag: "VIP" },
+  { id: 3, name: "Секретная от Андрея", desc: "🤫", price: 300, emoji: "❓" },
 ];
 
 export default function Index() {
@@ -160,7 +156,7 @@ export default function Index() {
             </div>
             <p className="text-muted-foreground text-sm hidden md:block">Все позиции готовятся свежими</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {MENU.map((item, i) => {
               const qty = getQty(item.id);
               return (
@@ -177,32 +173,34 @@ export default function Index() {
                   <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">{item.emoji}</div>
                   <h3 className="font-display font-semibold text-lg mb-1 leading-tight">{item.name}</h3>
                   <p className="text-muted-foreground text-sm mb-4 leading-snug">{item.desc}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-xl font-bold text-gold">{item.price} ₽</span>
-                    {qty === 0 ? (
-                      <button
-                        onClick={() => addToCart(item)}
-                        className="bg-fire text-background font-bold px-4 py-2 rounded-full text-sm transition-all hover:brightness-110 hover:scale-105 font-display"
-                      >
-                        + В корзину
-                      </button>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="w-8 h-8 rounded-full border border-border text-foreground font-bold hover:border-fire hover:text-fire transition-colors"
-                        >
-                          −
-                        </button>
-                        <span className="font-display font-bold text-fire w-4 text-center">{qty}</span>
+                  <div className="flex flex-col gap-3">
+                    <span className="font-display text-base font-bold text-gold">{item.priceLabel ?? `${item.price} ₽`}</span>
+                    <div className="flex items-center justify-between">
+                      {qty === 0 ? (
                         <button
                           onClick={() => addToCart(item)}
-                          className="w-8 h-8 rounded-full bg-fire text-background font-bold hover:brightness-110 transition-all"
+                          className="bg-fire text-background font-bold px-4 py-2 rounded-full text-sm transition-all hover:brightness-110 hover:scale-105 font-display"
                         >
-                          +
+                          + В корзину
                         </button>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="w-8 h-8 rounded-full border border-border text-foreground font-bold hover:border-fire hover:text-fire transition-colors"
+                          >
+                            −
+                          </button>
+                          <span className="font-display font-bold text-fire w-4 text-center">{qty}</span>
+                          <button
+                            onClick={() => addToCart(item)}
+                            className="w-8 h-8 rounded-full bg-fire text-background font-bold hover:brightness-110 transition-all"
+                          >
+                            +
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
