@@ -54,10 +54,42 @@ export default function OrderSuccess({ onReset }: Props) {
 
     const phaseTimer = setInterval(() => setPhase((p) => (p + 1) % 3), 600);
 
+    // Звук молнии через Web Audio API
+    const playLightning = () => {
+      try {
+        const ctx = new AudioContext();
+        const buf = ctx.createBuffer(1, ctx.sampleRate * 0.6, ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < data.length; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.08));
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.7, 0);
+        gain.gain.exponentialRampToValueAtTime(0.001, 0.6);
+        const filter = ctx.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.value = 800;
+        filter.Q.value = 0.5;
+        src.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        src.start();
+        setTimeout(() => ctx.close(), 700);
+      } catch (e) { console.warn("audio", e); }
+    };
+
+    playLightning();
+    const ls1 = setTimeout(playLightning, 500);
+    const ls2 = setTimeout(playLightning, 1100);
+
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
+      clearTimeout(ls1);
+      clearTimeout(ls2);
       clearInterval(phaseTimer);
     };
   }, []);
