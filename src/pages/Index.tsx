@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
-const HERO_IMG = "https://cdn.poehali.dev/projects/d3eca4b3-1036-4f92-94af-157af1812bb5/files/d67e0c29-fceb-404e-868a-29eac9680adb.jpg";
+const HERO_IMG = "https://cdn.poehali.dev/projects/d3eca4b3-1036-4f92-94af-157af1812bb5/files/c21055c0-93be-4328-942c-7d41897ebffb.jpg";
+const ORDER_URL = "https://functions.poehali.dev/2b441b96-7942-46d3-84b3-eccda1902ad5";
 
 interface MenuItem {
   id: number;
@@ -28,6 +29,7 @@ export default function Index() {
   const [cartOpen, setCartOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [orderDone, setOrderDone] = useState(false);
+  const [orderLoading, setOrderLoading] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", address: "" });
 
   const totalQty = cart.reduce((s, i) => s + i.qty, 0);
@@ -57,17 +59,33 @@ export default function Index() {
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleOrder = () => {
-    if (!form.name || !form.phone || !form.address) return;
-    setOrderDone(true);
-    setCart([]);
-    setCartOpen(false);
+  const handleOrder = async () => {
+    if (!form.name || !form.phone || !form.address || cart.length === 0) return;
+    setOrderLoading(true);
+    try {
+      await fetch(ORDER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          address: form.address,
+          items: cart.map((i) => ({ name: i.name, qty: i.qty, price: i.price })),
+          total: totalPrice,
+        }),
+      });
+    } finally {
+      setOrderLoading(false);
+      setOrderDone(true);
+      setCart([]);
+      setCartOpen(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-border/50" style={{ background: "hsl(20 14% 6% / 0.92)" }}>
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 border-b-4 border-foreground" style={{ background: "hsl(60 25% 85%)" }}>
         <div className="font-display text-2xl font-bold tracking-widest">
           <span className="text-fire">ШАУРМА</span>-РОК
         </div>
@@ -101,9 +119,11 @@ export default function Index() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(to right, hsl(20 14% 4% / 0.97) 40%, hsl(20 14% 4% / 0.6) 100%), url(${HERO_IMG})`,
+            backgroundImage: `url(${HERO_IMG})`,
             backgroundSize: "cover",
-            backgroundPosition: "center right",
+            backgroundPosition: "center",
+            filter: "saturate(0.5) contrast(0.8)",
+            opacity: 0.5,
           }}
         />
         <div className="relative z-10 container mx-auto px-6 pt-24 pb-32">
@@ -308,10 +328,10 @@ export default function Index() {
                 )}
                 <button
                   onClick={handleOrder}
-                  disabled={!form.name || !form.phone || !form.address || totalQty === 0}
-                  className="w-full bg-fire text-background font-display font-bold text-lg py-4 rounded-full tracking-wide transition-all hover:brightness-110 hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  disabled={!form.name || !form.phone || !form.address || totalQty === 0 || orderLoading}
+                  className="w-full bg-fire text-primary-foreground font-display font-bold text-lg py-4 rounded-full tracking-wide transition-all hover:brightness-110 hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  {totalQty === 0 ? "Добавьте товары в корзину" : `Заказать на ${totalPrice} ₽`}
+                  {orderLoading ? "Отправляем... 🌯" : totalQty === 0 ? "Добавьте товары в корзину" : `Заказать на ${totalPrice} ₽`}
                 </button>
                 <p className="text-center text-xs text-muted-foreground">
                   Доставка бесплатно от 500 ₽ · Наличными или картой курьеру
