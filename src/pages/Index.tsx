@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import OrderSuccess from "@/components/OrderSuccess";
 
 const HERO_IMG = "https://cdn.poehali.dev/projects/d3eca4b3-1036-4f92-94af-157af1812bb5/files/c21055c0-93be-4328-942c-7d41897ebffb.jpg";
 const ORDER_URL = "https://functions.poehali.dev/2b441b96-7942-46d3-84b3-eccda1902ad5";
@@ -84,6 +85,9 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {orderDone && (
+        <OrderSuccess onReset={() => { setOrderDone(false); setForm({ name: "", phone: "", address: "" }); }} />
+      )}
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 border-b-4 border-foreground" style={{ background: "hsl(60 25% 85%)" }}>
         <div className="font-display text-2xl font-bold tracking-widest">
@@ -269,22 +273,8 @@ export default function Index() {
 
           {/* ORDER FORM */}
           <div className="max-w-lg mx-auto bg-card border border-border rounded-3xl p-8">
-            <h3 className="font-display text-3xl font-bold mb-6 text-center">
-              {orderDone ? "ЗАКАЗ ПРИНЯТ! 🎉" : "ОФОРМИТЬ ЗАКАЗ"}
-            </h3>
-            {orderDone ? (
-              <div className="text-center py-8">
-                <div className="text-7xl mb-4">🌯</div>
-                <p className="text-muted-foreground mb-6">Мы получили ваш заказ и уже готовим! Ожидайте звонка оператора.</p>
-                <button
-                  onClick={() => { setOrderDone(false); setForm({ name: "", phone: "", address: "" }); }}
-                  className="bg-fire text-background font-display font-bold px-8 py-3 rounded-full hover:brightness-110 transition-all"
-                >
-                  Новый заказ
-                </button>
-              </div>
-            ) : (
-              <div className="space-y-4">
+            <h3 className="font-display text-3xl font-bold mb-6 text-center">ОФОРМИТЬ ЗАКАЗ</h3>
+            <div className="space-y-4">
                 <div>
                   <label className="text-sm text-muted-foreground font-display uppercase tracking-wider mb-1 block">Ваше имя</label>
                   <input
@@ -337,7 +327,6 @@ export default function Index() {
                   Доставка бесплатно от 500 ₽ · Наличными или картой курьеру
                 </p>
               </div>
-            )}
           </div>
         </div>
       </section>

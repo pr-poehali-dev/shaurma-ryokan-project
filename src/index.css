@@ -206,4 +206,226 @@
   .cart-badge {
     animation: scaleIn 0.2s ease-out;
   }
+
+  /* ====== МОЛНИИ И НЕОН ====== */
+
+  @keyframes neon-flicker {
+    0%,
+    19%,
+    21%,
+    23%,
+    25%,
+    54%,
+    56%,
+    100% {
+      text-shadow:
+        0 0 10px #ff6600,
+        0 0 20px #ff6600,
+        0 0 40px #ff3300,
+        0 0 80px #ff0000,
+        0 0 120px #ff0000;
+    }
+    20%,
+    24%,
+    55% {
+      text-shadow: none;
+    }
+  }
+
+  @keyframes neon-border {
+    0%,
+    100% {
+      box-shadow:
+        0 0 5px #ff6600,
+        0 0 15px #ff6600,
+        0 0 30px #ff3300,
+        inset 0 0 15px #ff330022;
+    }
+    50% {
+      box-shadow:
+        0 0 10px #ffcc00,
+        0 0 30px #ffcc00,
+        0 0 60px #ff6600,
+        inset 0 0 30px #ffcc0022;
+    }
+  }
+
+  @keyframes lightning-strike {
+    0% {
+      opacity: 0;
+      transform: scaleY(0) translateX(0);
+    }
+    5% {
+      opacity: 1;
+      transform: scaleY(1) translateX(2px);
+    }
+    10% {
+      opacity: 0.7;
+      transform: scaleY(1) translateX(-2px);
+    }
+    15% {
+      opacity: 1;
+      transform: scaleY(1) translateX(0);
+    }
+    20% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes lightning2 {
+    0%,
+    30% {
+      opacity: 0;
+    }
+    35% {
+      opacity: 1;
+      transform: translateX(-3px);
+    }
+    40% {
+      opacity: 0.5;
+      transform: translateX(3px);
+    }
+    45% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes explode-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) rotate(-10deg);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.15) rotate(3deg);
+    }
+    80% {
+      transform: scale(0.95) rotate(-1deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes neon-pulse-bg {
+    0%,
+    100% {
+      background-color: #0a0005;
+    }
+    25% {
+      background-color: #1a0010;
+    }
+    50% {
+      background-color: #000a1a;
+    }
+    75% {
+      background-color: #0a1500;
+    }
+  }
+
+  @keyframes spark {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--tx), var(--ty)) scale(0);
+    }
+  }
+
+  @keyframes shawarma-spin {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    25% {
+      transform: rotate(15deg) scale(1.2);
+    }
+    50% {
+      transform: rotate(-10deg) scale(1.4);
+    }
+    75% {
+      transform: rotate(20deg) scale(1.2);
+    }
+    100% {
+      transform: rotate(0deg) scale(1);
+    }
+  }
+
+  @keyframes text-glitch {
+    0%,
+    100% {
+      clip-path: inset(0 0 100% 0);
+      transform: translateX(0);
+    }
+    10% {
+      clip-path: inset(20% 0 60% 0);
+      transform: translateX(-4px);
+    }
+    20% {
+      clip-path: inset(50% 0 30% 0);
+      transform: translateX(4px);
+    }
+    30% {
+      clip-path: inset(10% 0 80% 0);
+      transform: translateX(-2px);
+    }
+    40% {
+      clip-path: inset(0 0 0 0);
+      transform: translateX(0);
+    }
+  }
+
+  .neon-text {
+    animation: neon-flicker 3s infinite;
+    color: #ff6600;
+  }
+
+  .neon-border {
+    animation: neon-border 2s ease-in-out infinite;
+  }
+
+  .lightning {
+    position: absolute;
+    width: 3px;
+    background: linear-gradient(180deg, #ffff00, #ff6600, transparent);
+    transform-origin: top center;
+    animation: lightning-strike 2s ease-in-out infinite;
+    border-radius: 2px;
+    filter: blur(1px);
+  }
+
+  .lightning2 {
+    animation: lightning2 2.5s ease-in-out infinite;
+  }
+
+  .animate-explode-in {
+    animation: explode-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .neon-pulse-bg {
+    animation: neon-pulse-bg 2s ease-in-out infinite;
+  }
+
+  .shawarma-spin {
+    animation: shawarma-spin 0.8s ease-in-out 3;
+    display: inline-block;
+  }
+
+  .spark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffff00;
+    animation: spark 0.8s ease-out forwards;
+    pointer-events: none;
+  }
 }
